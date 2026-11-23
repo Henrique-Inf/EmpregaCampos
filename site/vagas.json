@@ -1,0 +1,18 @@
+[
+  {
+    "vaga": "Atendente de loja (exemplo)",
+    "empresa": "Empresa Exemplo",
+    "turno": "Tarde",
+    "contato": "(12) 99999-9999",
+    "descricao": "Vaga de exemplo só para mostrar como o site fica. Apague este item em vagas.json.",
+    "criadaEm": "2026-11-19T12:00:00Z"
+  },
+  {
+    "vaga": "Auxiliar de cozinha (exemplo)",
+    "empresa": "Restaurante Exemplo",
+    "turno": "Noite",
+    "contato": "contato@exemplo.com",
+    "descricao": "Segunda vaga de exemplo. Apague este item em vagas.json.",
+    "criadaEm": "2026-11-18T12:00:00Z"
+  }
+]

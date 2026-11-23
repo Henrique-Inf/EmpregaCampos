@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin · Emprega Campos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* layout: cabeçalho com logo, três partes em abas, uma coluna de conteúdo de 720px */
+  --bg: #1a1a1a;
+  --surface: #242424;
+  --line: #3a3a3a;
+  --text: #ffffff;
+  --muted: #b3b3ae;
+  --danger: #ff9b8f;
+  --accent: #6ab908;
+  --on-accent: #1a1a1a;
+  --display: "Outfit", "Segoe UI", system-ui, sans-serif;
+  --body: "DM Sans", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 16px; line-height: 1.5; min-height: 100%; }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+a { color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+
+header { padding: 16px 0 4px; }
+body[data-aba="inicio"] header { display: none; }
+body[data-aba="inicio"] nav { margin-top: 20px; }
+.marca { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+.marca .simbolo-p { height: 44px; width: auto; display: block; }
+.marca .nome-p { height: 34px; width: auto; display: block; }
+.hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+.hero .simbolo { width: min(66vw, 280px); height: auto; display: block; }
+.hero .nome { height: 56px; width: auto; display: block; }
+.tagline { margin: 6px auto 0; color: var(--muted); max-width: 46ch; text-align: center; }
+
+nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 26px; }
+nav a[hidden] { display: none; }
+nav a { text-decoration: none; padding: 10px 14px; border: 1px solid var(--line); border-radius: 999px; font-family: var(--display); font-size: 15px; line-height: 1.2; display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); }
+nav a[aria-current="page"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); font-weight: 600; }
+
+/* início */
+.duas { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 26px; }
+.escolha { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+.escolha h2 { font-size: 24px; }
+.escolha p { margin: 0; color: var(--muted); }
+.escolha .acoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.escolha .btn, .faixa-apoio .btn { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+.numeros { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+.numeros:empty { display: none; }
+.num { flex: 1 1 140px; border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; }
+.num strong { font-family: var(--display); font-size: 34px; font-weight: 500; color: var(--accent); line-height: 1.1; }
+.num span { color: var(--muted); font-size: 14px; }
+.faixa-apoio { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
+.faixa-apoio:empty { display: none; }
+.faixa-apoio h3 { font-size: 16px; color: var(--muted); font-weight: 500; }
+.faixa-logos { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.faixa-logos a { background: #fff; border-radius: 10px; width: 84px; height: 56px; display: flex; align-items: center; justify-content: center; padding: 6px; }
+.faixa-logos img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.faixa-apoio .vazia { color: var(--muted); font-size: 14px; }
+.faixa-apoio .vazia a { color: var(--accent); }
+.filtros { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 14px; }
+.cont-vagas { color: var(--muted); font-size: 14px; margin: 0 0 14px; }
+.apoiadores-cards { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
+.apoiador { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.apoiador .logo-box { background: #fff; border-radius: 10px; height: 110px; display: flex; align-items: center; justify-content: center; padding: 10px; }
+.apoiador .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.apoiador h3 { font-size: 20px; }
+.apoiador p { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+.apoiador .contato .btn { text-decoration: none; display: inline-flex; align-items: center; }
+.msg.bot img.prev-cv { width: 100%; max-width: 260px; border-radius: 8px; display: block; background: #fff; }
+.form-apo { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.apo-adm { display: flex; align-items: center; gap: 12px; }
+.apo-adm img { width: 64px; height: 44px; object-fit: contain; background: #fff; border-radius: 8px; padding: 4px; }
+@media (min-width: 640px) { .duas { grid-template-columns: 1fr 1fr; } .filtros { grid-template-columns: 2fr 1fr; } .apoiadores-cards { grid-template-columns: 1fr 1fr; } }
+
+section[hidden] { display: none; }
+.sec-head { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+.sec-head h2 { font-size: 26px; }
+.sec-head p { margin: 0; color: var(--muted); }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 14px; color: var(--muted); }
+input[type=text], input[type=search], input[type=tel], input[type=email], select, textarea {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; width: 100%; min-height: 48px;
+}
+textarea { min-height: 130px; resize: vertical; }
+input::placeholder, textarea::placeholder { color: #86867f; }
+
+.btn { background: var(--accent); color: var(--on-accent); border: 0; border-radius: 10px; padding: 12px 20px; min-height: 48px; font-weight: 700; cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); font-weight: 500; }
+.btn.ghost:hover { border-color: var(--accent); }
+.btn:disabled { opacity: .5; cursor: default; }
+
+/* vagas */
+.search { margin-bottom: 18px; }
+.list { display: flex; flex-direction: column; gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.card h3 { font-size: 20px; }
+.card .empresa { color: var(--muted); margin: 0; }
+.card .desc { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { border: 1px solid var(--accent); border-radius: 999px; padding: 2px 12px; font-size: 14px; color: var(--accent); }
+.contato { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding-top: 6px; }
+.contato .btn { text-decoration: none; display: inline-flex; align-items: center; }
+.contato span { color: var(--muted); overflow-wrap: anywhere; }
+.estado { border: 1px dashed var(--line); border-radius: 14px; padding: 28px 18px; color: var(--muted); text-align: center; }
+
+/* formulário */
+form.vaga { display: flex; flex-direction: column; gap: 16px; }
+.aviso { border-radius: 10px; padding: 14px 16px; border: 1px solid var(--line); background: var(--surface); }
+.aviso.erro { color: var(--danger); border-color: var(--danger); }
+.nota { color: var(--muted); font-size: 14px; margin: 0; }
+
+/* chat */
+.chat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; display: flex; flex-direction: column; overflow: hidden; }
+.msgs { display: flex; flex-direction: column; gap: 10px; padding: 16px; max-height: 58vh; min-height: 260px; overflow-y: auto; }
+.msg { max-width: 86%; padding: 10px 14px; border-radius: 14px; overflow-wrap: anywhere; white-space: pre-wrap; }
+.msg.bot { align-self: flex-start; background: #303030; border-bottom-left-radius: 4px; }
+.msg.eu { align-self: flex-end; background: var(--accent); color: var(--on-accent); border-bottom-right-radius: 4px; }
+.resumo { align-self: stretch; max-width: 100%; border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; background: var(--bg); }
+.resumo dt { color: var(--muted); font-size: 14px; }
+.resumo dd { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+.entrada { border-top: 1px solid var(--line); padding: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+.entrada form { display: flex; gap: 8px; width: 100%; }
+.entrada .btn { flex: none; }
+.entrada .opcoes { display: flex; flex-wrap: wrap; gap: 8px; }
+.msg.eu img { display: block; width: 140px; height: 140px; object-fit: cover; border-radius: 10px; }
+.resumo img { width: 96px; height: 96px; object-fit: cover; border-radius: 10px; display: block; }
+.err { color: var(--danger); font-size: 14px; width: 100%; margin: 0; }
+
+
+/* admin */
+.sub { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.sub button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); font-weight: 700; }
+.cur { display: grid; grid-template-columns: 64px 1fr; gap: 6px 14px; align-items: center; }
+.cur .av { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; background: #303030; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 24px; }
+.cur h3 { font-size: 18px; }
+.cur p { margin: 0; color: var(--muted); font-size: 14px; }
+.cur .acoes { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
+.btn.sm { min-height: 40px; padding: 8px 14px; font-size: 14px; }
+.sug { color: var(--accent) !important; grid-column: 1 / -1; }
+.cur .chips { grid-column: 1 / -1; }
+.card.inativa { opacity: .65; }
+.cands { display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--line); padding-top: 12px; }
+.cand { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.titulo-lista { font-size: 18px; margin: 22px 0 10px; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.78); z-index: 50; overflow-y: auto; padding: 16px; }
+.modal[hidden] { display: none; }
+.modal-box { max-width: 560px; margin: 0 auto; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.modal-box img.prev { width: 100%; height: auto; border-radius: 8px; background: #fff; display: block; }
+.share { display: flex; flex-direction: column; gap: 10px; }
+.share .linha { display: flex; flex-wrap: wrap; gap: 8px; }
+.apoio-texto { display: flex; flex-direction: column; gap: 12px; max-width: 60ch; margin-bottom: 24px; }
+.apoio-texto p { margin: 0; }
+.apoio-texto ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.apoio-texto li::marker { color: var(--accent); }
+.apoio-texto strong { color: var(--accent); }
+.assine { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0 0 24px; }
+.assine .btn { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; min-width: 160px; }
+.logos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.logo-slot { aspect-ratio: 1; border: 2px dashed var(--line); border-radius: 14px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 12px; color: var(--muted); font-family: var(--display); font-size: 18px; }
+@media (min-width: 560px) { .logos { grid-template-columns: repeat(3, 1fr); } }
+footer { padding: 36px 0 48px; color: var(--muted); font-size: 14px; }
+@media (prefers-reduced-motion: no-preference) { .msgs { scroll-behavior: smooth; } }
+@media (max-width: 420px) { nav a { font-size: 14px; padding: 10px 12px; } }
+
+.login { max-width: 380px; margin: 12vh auto 0; display: flex; flex-direction: column; gap: 16px; }
+.login h1 { font-size: 26px; }
+.topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 0 8px; }
+.topo img { height: 40px; width: auto; }
+.demo { border: 1px dashed var(--line); border-radius: 10px; padding: 10px 14px; color: var(--muted); font-size: 14px; margin: 8px 0 20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- entrada -->
+  <form id="login" class="login" novalidate>
+    <img src="nome.png" alt="Emprega Campos" style="height:56px;width:auto;align-self:flex-start">
+    <h1>Entrar</h1>
+    <div class="field"><label for="l-user">Usuário</label><input id="l-user" type="text" autocomplete="username" autocapitalize="none"></div>
+    <div class="field"><label for="l-pass">Senha</label><input id="l-pass" type="password" autocomplete="current-password"></div>
+    <div id="l-erro" class="err" role="alert"></div>
+    <button class="btn" type="submit">Entrar</button>
+  </form>
+
+  <!-- painel -->
+  <div id="painel" hidden>
+    <div class="topo"><img src="simbolo.png" alt="Emprega Campos"><button type="button" class="btn ghost sm" id="sair">Sair</button></div>
+    <div class="demo">Vagas e apoiadores são os reais do site. Mude aqui, baixe o arquivo e envie para a hospedagem no lugar do antigo para valer. Os currículos abaixo são só exemplos: os de verdade ficam no painel do Netlify (Forms) até o servidor com login ficar pronto.</div>
+    <main>
+    <section id="admin" aria-labelledby="h-adm">
+      <div class="sec-head">
+        <h2 id="h-adm">Área do administrador</h2>
+        <p>Veja os currículos recebidos e gerencie as vagas.</p>
+      </div>
+      <div class="sub" role="group" aria-label="Seções do administrador">
+        <button type="button" class="btn ghost sm" id="sub-cur" aria-pressed="true">Currículos</button>
+        <button type="button" class="btn ghost sm" id="sub-vagas" aria-pressed="false">Vagas</button>
+        <button type="button" class="btn ghost sm" id="sub-apo" aria-pressed="false">Apoiadores</button>
+      </div>
+      <div id="adm-cur" class="list"></div>
+      <div id="barra-vagas" hidden>
+        <form id="form-vaga-adm" class="form-apo" novalidate>
+          <h3 class="titulo-lista">Adicionar vaga</h3>
+          <div class="field"><label for="n-empresa">Nome da empresa</label><input id="n-empresa" type="text" maxlength="80"></div>
+          <div class="field"><label for="n-vaga">Vaga</label><input id="n-vaga" type="text" maxlength="80"></div>
+          <div class="field"><label for="n-contato">Contato (e-mail ou WhatsApp)</label><input id="n-contato" type="text" maxlength="80"></div>
+          <div class="field"><label for="n-turno">Turno</label><select id="n-turno"><option>Manhã</option><option>Tarde</option><option>Noite</option><option>Integral</option><option>A combinar</option></select></div>
+          <div class="field"><label for="n-desc">Descrição</label><textarea id="n-desc" maxlength="800"></textarea></div>
+          <div id="n-aviso" class="nota" role="status"></div>
+          <button type="submit" class="btn">Adicionar vaga</button>
+        </form>
+        <button type="button" class="btn ghost" id="baixar-vagas">Baixar vagas.json</button>
+        <p class="nota">Depois de baixar, envie o arquivo para a hospedagem, no lugar do antigo.</p>
+      </div>
+      <div id="adm-vagas" hidden></div>
+      <div id="adm-apo" hidden>
+        <button type="button" class="btn ghost" id="baixar-apo">Baixar apoiadores.json</button>
+        <p class="nota">Depois de baixar, envie o arquivo para a hospedagem, no lugar do antigo.</p>
+        <form id="form-apo" class="form-apo" novalidate>
+          <div class="field"><label for="a-nome">Nome da empresa</label><input id="a-nome" type="text" maxlength="80"></div>
+          <div class="field"><label for="a-contato">Contato (WhatsApp ou e-mail)</label><input id="a-contato" type="text" maxlength="80"></div>
+          <div class="field"><label for="a-end">Endereço completo</label><input id="a-end" type="text" maxlength="160"></div>
+          <div class="field"><label for="a-logo">Logo da empresa</label><input id="a-logo" type="file" accept="image/*"></div>
+          <div id="a-aviso" class="nota" role="status"></div>
+          <button type="submit" class="btn" id="a-add">Adicionar apoiador</button>
+        </form>
+        <div id="apo-lista" class="list"></div>
+      </div>
+    </section>
+    </main>
+  </div>
+  <div id="modal" class="modal" hidden role="dialog" aria-modal="true" aria-label="Currículo">
+    <div class="modal-box">
+      <img id="m-img" class="prev" alt="Currículo montado">
+      <div class="share">
+        <div class="field"><label for="m-dest">Enviar para o empregador</label><select id="m-dest"></select></div>
+        <div class="field" id="m-manual-box" hidden><label for="m-manual">WhatsApp com DDD ou e-mail</label><input id="m-manual" type="text" placeholder="(12) 99999-9999 ou empresa@exemplo.com"></div>
+        <div class="linha">
+          <button type="button" class="btn" id="m-wpp">WhatsApp</button>
+          <button type="button" class="btn" id="m-email">E-mail</button>
+          <button type="button" class="btn ghost" id="m-baixar">Baixar imagem</button>
+        </div>
+        <div id="m-status" class="nota" role="status"></div>
+      </div>
+      <button type="button" class="btn ghost" id="m-fechar">Fechar</button>
+    </div>
+  </div>
+
+
+</div>
+<script>
+(function () {
+  "use strict";
+  /* ---------- utilidades ---------- */
+  function h(tag, attrs, kids) {
+    var el = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) {
+      if (k === "class") el.className = attrs[k];
+      else if (k === "text") el.textContent = attrs[k];
+      else el.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function (c) { if (c) el.appendChild(c); });
+    return el;
+  }
+  function $(id) { return document.getElementById(id); }
+  function novoId() { return "i" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  function norm(s) { return (s || "").toString().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+
+  var PRAZO_DIAS = 30;
+  function baseData(v) { return Date.parse(v.aprovadaEm || v.criadaEm || "") || 0; }
+  function diasRestantes(v) { var b = baseData(v); return b ? Math.ceil(PRAZO_DIAS - (Date.now() - b) / 86400000) : PRAZO_DIAS; }
+  function vagaAtiva(v) { return v.status !== "preenchida" && diasRestantes(v) > 0; }
+
+  var ehAdmin = true, vagas = [], apoiadores = [], numeros = { curriculos: 0 };
+  function rota() {}
+
+  /* ---------- dados de exemplo (só na memória) ---------- */
+  function avatar(letra, cor) {
+    var c = document.createElement("canvas"); c.width = 360; c.height = 360;
+    var g = c.getContext("2d"); g.fillStyle = cor; g.fillRect(0, 0, 360, 360);
+    g.fillStyle = "rgba(255,255,255,.9)"; g.beginPath(); g.arc(180, 140, 70, 0, 7); g.fill();
+    g.fillRect(70, 240, 220, 140);
+    return c.toDataURL("image/jpeg", 0.8);
+  }
+  function ago(h) { return new Date(Date.now() - h * 3600000).toISOString(); }
+  var dados = {
+    curriculos: {
+      u1: { nome: "Maria da Silva Santos", nascimento: "01/02/1995", whatsapp: "(12) 99999-8888", email: "maria@exemplo.com", escolaridade: "Médio completo", cursos: "Informática básica, atendimento ao cliente", word: "Sim", excel: "Um pouco", emails: "Sim", cnh: "B", interesse: "Atendente de loja", experiencia: "Loja de roupas por 2 anos como vendedora. Atendimento, caixa e organização de estoque.", turno: "Tarde", foto: avatar("M", "#7a96bd"), criadoEm: ago(2) },
+      u2: { nome: "João Pedro Almeida", nascimento: "15/07/2001", whatsapp: "(12) 98888-1122", email: "", escolaridade: "Técnico", cursos: "Garçom e atendimento em restaurante", word: "Um pouco", excel: "Não", emails: "Um pouco", cnh: "A", interesse: "Garçom", experiencia: "Primeiro emprego", turno: "Noite", foto: avatar("J", "#8aa38a"), criadoEm: ago(30) },
+      u3: { nome: "Ana Beatriz Costa", nascimento: "22/11/1988", whatsapp: "(12) 97777-3344", email: "ana.costa@exemplo.com", escolaridade: "Superior completo", cursos: "Recepção em hotelaria, inglês intermediário", word: "Sim", excel: "Sim", emails: "Sim", cnh: "B", interesse: "Recepcionista", experiencia: "Pousada em Campos do Jordão por 5 anos na recepção e reservas.", turno: "Manhã", foto: avatar("A", "#b08a9a"), criadoEm: ago(70) }
+    },
+    vagas: {},
+    pendentes: {},
+    decididas: {}, apoiadores: {}, numeros: {}
+  };
+  var ouvintes = {};
+  function snapDe(n) { return { docs: Object.keys(dados[n]).map(function (id) { return { id: id, data: function () { return dados[n][id]; } }; }) }; }
+  function emitir(n) { (ouvintes[n] || []).forEach(function (cb) { cb(snapDe(n)); }); }
+  var db = {
+    collection: function (n) { return { onSnapshot: function (cb) { (ouvintes[n] = ouvintes[n] || []).push(cb); setTimeout(function () { cb(snapDe(n)); }, 0); } }; },
+    doc: function (p) {
+      var a = p.split("/");
+      return {
+        set: function (d) { dados[a[0]][a[1]] = d; emitir(a[0]); return Promise.resolve(); },
+        delete: function () { delete dados[a[0]][a[1]]; emitir(a[0]); return Promise.resolve(); }
+      };
+    }
+  };
+  /* ---------- admin ---------- */
+  var curriculos = [], pendentes = [], decididas = {}, adminIniciado = false, subAtual = "cur", ultimoSync = -1;
+
+  function docsDe(snap) {
+    var docs = snap && snap.docs ? snap.docs : (Array.isArray(snap) ? snap : []);
+    return docs.map(function (x) { return { id: x && x.id, data: x && typeof x.data === "function" ? x.data() : x }; });
+  }
+
+  function iniciarAdmin() {
+    if (adminIniciado) return;
+    adminIniciado = true;
+    try {
+      db.collection("curriculos").onSnapshot(function (snap) {
+        curriculos = docsDe(snap).map(function (d) { return Object.assign({ _id: d.id }, d.data); }).filter(function (c) { return c && c.nome; })
+          .sort(function (a, b) { return (b.criadoEm || "").localeCompare(a.criadoEm || ""); });
+        if (!ehAdmin) { ehAdmin = true; rota(); }
+        renderAdmin();
+      }, function () { /* sem permissão: não é admin */ });
+      db.collection("pendentes").onSnapshot(function (snap) {
+        var out = [];
+        docsDe(snap).forEach(function (d) {
+          Object.keys(d.data || {}).forEach(function (k) {
+            if (k.indexOf("i_") === 0 && d.data[k] && d.data[k].vaga) out.push(Object.assign({ id: k.slice(2), uid: d.id }, d.data[k]));
+          });
+        });
+        pendentes = out.sort(function (a, b) { return (b.criadaEm || "").localeCompare(a.criadaEm || ""); });
+        renderAdmin();
+      }, function () {});
+      db.collection("decididas").onSnapshot(function (snap) {
+        decididas = {};
+        docsDe(snap).forEach(function (d) { decididas[d.id] = true; });
+        renderAdmin();
+      }, function () {});
+    } catch (e) {}
+  }
+
+  function trocarSub(qual) {
+    subAtual = qual;
+    $("sub-cur").setAttribute("aria-pressed", qual === "cur");
+    $("sub-vagas").setAttribute("aria-pressed", qual === "vagas");
+    $("sub-apo").setAttribute("aria-pressed", qual === "apo");
+    $("adm-cur").hidden = qual !== "cur";
+    $("adm-vagas").hidden = qual !== "vagas";
+    $("adm-apo").hidden = qual !== "apo";
+  }
+  $("sub-cur").addEventListener("click", function () { trocarSub("cur"); });
+  $("sub-vagas").addEventListener("click", function () { trocarSub("vagas"); });
+  $("sub-apo").addEventListener("click", function () { trocarSub("apo"); });
+
+  function reduzirLogo(arquivo) {
+    return new Promise(function (ok, falha) {
+      var url = URL.createObjectURL(arquivo), img = new Image();
+      img.onload = function () {
+        var r = Math.min(1, 400 / Math.max(img.width, img.height));
+        var c = document.createElement("canvas");
+        c.width = Math.round(img.width * r); c.height = Math.round(img.height * r);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        ok(arquivo.type === "image/png" ? c.toDataURL("image/png") : c.toDataURL("image/jpeg", 0.85));
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); falha(new Error("imagem")); };
+      img.src = url;
+    });
+  }
+  $("form-apo").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var av = $("a-aviso"), btn = $("a-add");
+    var nome = $("a-nome").value.trim(), contato = $("a-contato").value.trim(), end = $("a-end").value.trim();
+    var arq = $("a-logo").files && $("a-logo").files[0];
+    if (!nome || !contato || !end || !arq) { av.textContent = "Preencha nome, contato, endereço e escolha a logo."; return; }
+    btn.disabled = true; av.textContent = "Salvando…";
+    reduzirLogo(arq).then(function (logo) {
+      var id = novoId();
+      return db.doc("apoiadores/" + id).set({ id: id, nome: nome, contato: contato, endereco: end, logo: logo, criadoEm: new Date().toISOString() });
+    }).then(function () {
+      $("form-apo").reset(); av.textContent = "Apoiador adicionado.";
+    }).catch(function () { av.textContent = "Não foi possível salvar. Tente de novo."; })
+      .then(function () { btn.disabled = false; });
+  });
+
+  function idadeDe(nasc) {
+    var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(nasc || "");
+    if (!m) return "";
+    var n = new Date(+m[3], +m[2] - 1, +m[1]), hoje = new Date();
+    var i = hoje.getFullYear() - n.getFullYear();
+    if (hoje < new Date(hoje.getFullYear(), n.getMonth(), n.getDate())) i--;
+    return i > 0 ? i + " anos" : "";
+  }
+
+  /* ---------- novidades e compatibilidade ---------- */
+  var vistoAntes = "";
+  try { vistoAntes = localStorage.getItem("ec-visto") || ""; } catch (e) {}
+  function marcarVisto() { try { localStorage.setItem("ec-visto", new Date().toISOString()); } catch (e) {} }
+  window.addEventListener("pagehide", marcarVisto);
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") marcarVisto(); });
+
+  var PARADAS = ["para", "com", "uma", "que", "vaga", "loja", "area", "trabalho", "experiencia", "primeiro", "emprego", "anos", "meio", "tempo"];
+  function palavras(t) {
+    return norm(t).split(/[^a-z0-9]+/).filter(function (w) { return w.length >= 4 && PARADAS.indexOf(w) < 0; }).map(function (w) { return w.slice(0, 5); });
+  }
+  function casa(a, b) { return a.some(function (x) { return b.indexOf(x) >= 0; }); }
+  function compat(c, v) {
+    var area = false, pts = 0;
+    var ci = palavras(c.interesse), vt = palavras(v.vaga), vd = palavras([v.vaga, v.descricao].join(" "));
+    if (casa(ci, vt)) { area = true; pts += 3; }
+    else if (casa(ci, vd)) { area = true; pts += 1; }
+    if (casa(palavras([c.experiencia, c.cursos].join(" ")), vt)) pts += 1;
+    var turno = c.turno === "Qualquer turno" || v.turno === "A combinar" || v.turno === "Integral" || norm(c.turno) === norm(v.turno);
+    if (turno) pts += 1;
+    return { area: area, turno: turno, pts: pts };
+  }
+  function chipsCompat(r) {
+    return h("div", { "class": "chips" }, [r.area ? h("span", { "class": "chip", text: "Combina a área" }) : null, r.turno ? h("span", { "class": "chip", text: "Mesmo turno" }) : null]);
+  }
+  function rotuloPrazo(v) {
+    if (v.status === "preenchida") return "Preenchida";
+    var d = diasRestantes(v);
+    return d <= 0 ? "Expirada" : d === 1 ? "Vence amanhã" : "Vence em " + d + " dias";
+  }
+
+  function renderAdmin() {
+    if (!ehAdmin) return;
+    // mantém o contador público de currículos em dia
+    if (db && curriculos.length !== ultimoSync && curriculos.length !== numeros.curriculos) {
+      ultimoSync = curriculos.length;
+      Promise.resolve(db.doc("numeros/geral").set({ curriculos: curriculos.length })).catch(function () {});
+    }
+    var la = $("apo-lista");
+    if (la) {
+      la.textContent = "";
+      if (!apoiadores.length) la.appendChild(h("div", { "class": "estado", text: "Nenhum apoiador cadastrado." }));
+      apoiadores.forEach(function (a) {
+        var rm = h("button", { "class": "btn ghost sm", type: "button", text: "Remover" });
+        rm.addEventListener("click", function () {
+          if (rm.dataset.sure !== "1") { rm.dataset.sure = "1"; rm.textContent = "Toque de novo para confirmar"; return; }
+          rm.disabled = true;
+          Promise.resolve(db.doc("apoiadores/" + a.id).delete()).catch(function () { rm.disabled = false; });
+        });
+        la.appendChild(h("article", { "class": "card" }, [
+          h("div", { "class": "apo-adm" }, [h("img", { src: a.logo || "", alt: "" }), h("div", {}, [h("h3", { text: a.nome }), h("p", { "class": "empresa", text: a.endereco || "" })])]),
+          h("div", { "class": "contato" }, [rm])
+        ]));
+      });
+    }
+    var ativas = vagas.filter(vagaAtiva);
+    var novos = curriculos.filter(function (c) { return (c.criadoEm || "") > vistoAntes; }).length;
+    $("sub-cur").textContent = "Currículos (" + curriculos.length + ")" + (novos ? " · " + novos + (novos > 1 ? " novos" : " novo") : "");
+    var pend = pendentes.filter(function (p) { return !decididas[p.id] && !vagas.some(function (v) { return v.id === p.id; }); });
+    $("sub-vagas").textContent = "Vagas (" + pend.length + " para aprovar)";
+
+    var c = $("adm-cur"); c.textContent = "";
+    if (!curriculos.length) c.appendChild(h("div", { "class": "estado", text: "Nenhum currículo recebido ainda." }));
+    curriculos.forEach(function (cv) {
+      var av = cv.foto ? h("img", { "class": "av", src: cv.foto, alt: "" }) : h("div", { "class": "av", text: (cv.nome || "?").charAt(0).toUpperCase() });
+      var ver = h("button", { "class": "btn sm", type: "button", text: "Ver currículo e compartilhar" });
+      ver.addEventListener("click", function () { abrirModal(cv); });
+      var sug = ativas.map(function (v) { return { v: v, r: compat(cv, v) }; }).filter(function (x) { return x.r.area; })
+        .sort(function (a, b) { return b.r.pts - a.r.pts; }).slice(0, 2);
+      var ehNovo = (cv.criadoEm || "") > vistoAntes;
+      c.appendChild(h("article", { "class": "card cur" }, [
+        av,
+        h("div", {}, [h("h3", { text: cv.nome }), h("p", { text: [cv.interesse, cv.turno, idadeDe(cv.nascimento)].filter(Boolean).join(" · ") })]),
+        ehNovo ? h("div", { "class": "chips" }, [h("span", { "class": "chip", text: "Novo" })]) : null,
+        sug.length ? h("p", { "class": "sug", text: "Vagas sugeridas: " + sug.map(function (x) { return x.v.vaga + " (" + (x.v.empresa || "") + ")"; }).join(", ") }) : null,
+        h("div", { "class": "acoes" }, [ver])
+      ]));
+    });
+
+    var v = $("adm-vagas"); v.textContent = "";
+    v.appendChild(h("h3", { "class": "titulo-lista", text: "Para aprovar" }));
+    var lp = h("div", { "class": "list" }); v.appendChild(lp);
+    if (!pend.length) lp.appendChild(h("div", { "class": "estado", text: "Nenhuma vaga esperando aprovação." }));
+    pend.forEach(function (p) {
+      var ok = h("button", { "class": "btn sm", type: "button", text: "Aprovar" });
+      var no = h("button", { "class": "btn ghost sm", type: "button", text: "Recusar" });
+      ok.addEventListener("click", function () {
+        ok.disabled = no.disabled = true;
+        var d = {}; ["empresa", "vaga", "contato", "turno", "descricao", "criadaEm"].forEach(function (k) { d[k] = p[k] || ""; });
+        d.id = p.id; d.status = "aprovada"; d.aprovadaEm = new Date().toISOString();
+        Promise.resolve(db.doc("vagas/" + p.id).set(d)).then(function () { return db.doc("decididas/" + p.id).set({ status: "aprovada" }); })
+          .catch(function () { ok.disabled = no.disabled = false; });
+      });
+      no.addEventListener("click", function () {
+        ok.disabled = no.disabled = true;
+        Promise.resolve(db.doc("decididas/" + p.id).set({ status: "recusada" })).catch(function () { ok.disabled = no.disabled = false; });
+      });
+      lp.appendChild(h("article", { "class": "card" }, [
+        h("h3", { text: p.vaga }), h("p", { "class": "empresa", text: p.empresa || "" }),
+        h("div", { "class": "chips" }, [p.turno ? h("span", { "class": "chip", text: p.turno }) : null]),
+        h("p", { "class": "desc", text: p.descricao || "" }),
+        h("p", { "class": "empresa", text: "Contato: " + (p.contato || "") }),
+        h("div", { "class": "contato" }, [ok, no])
+      ]));
+    });
+
+    v.appendChild(h("h3", { "class": "titulo-lista", text: "Publicadas" }));
+    var lv = h("div", { "class": "list" }); v.appendChild(lv);
+    if (!vagas.length) lv.appendChild(h("div", { "class": "estado", text: "Nenhuma vaga publicada." }));
+    vagas.slice().sort(function (a, b) { return (vagaAtiva(b) ? 1 : 0) - (vagaAtiva(a) ? 1 : 0) || baseData(b) - baseData(a); }).forEach(function (p) {
+      var ativa = vagaAtiva(p);
+      var cands = h("div", { "class": "cands", hidden: "" });
+      var bCand = h("button", { "class": "btn sm", type: "button", text: "Ver candidatos" });
+      bCand.addEventListener("click", function () {
+        if (!cands.hidden) { cands.hidden = true; return; }
+        cands.textContent = "";
+        var lista = curriculos.map(function (cv) { return { cv: cv, r: compat(cv, p) }; }).filter(function (x) { return x.r.area; })
+          .sort(function (a, b) { return b.r.pts - a.r.pts; }).slice(0, 5);
+        if (!lista.length) cands.appendChild(h("p", { "class": "nota", text: "Nenhum currículo combina com esta vaga ainda." }));
+        lista.forEach(function (x) {
+          var abrir = h("button", { "class": "btn ghost sm", type: "button", text: "Abrir currículo" });
+          abrir.addEventListener("click", function () { abrirModal(x.cv, p.id); });
+          cands.appendChild(h("div", { "class": "cand" }, [h("strong", { text: x.cv.nome }), h("span", { "class": "empresa", text: x.cv.interesse || "" }), chipsCompat(x.r), abrir]));
+        });
+        cands.hidden = false;
+      });
+      var acoes = [];
+      if (ativa) acoes.push(bCand);
+      if (p.id) {
+        var ren = h("button", { "class": "btn ghost sm", type: "button", text: "Renovar por 30 dias" });
+        ren.addEventListener("click", function () {
+          ren.disabled = true;
+          var d = Object.assign({}, p, { status: "aprovada", aprovadaEm: new Date().toISOString() });
+          Promise.resolve(db.doc("vagas/" + p.id).set(d)).catch(function () { ren.disabled = false; });
+        });
+        acoes.push(ren);
+        if (ativa) {
+          var pre = h("button", { "class": "btn ghost sm", type: "button", text: "Marcar como preenchida" });
+          pre.addEventListener("click", function () {
+            pre.disabled = true;
+            Promise.resolve(db.doc("vagas/" + p.id).set(Object.assign({}, p, { status: "preenchida" }))).catch(function () { pre.disabled = false; });
+          });
+          acoes.push(pre);
+        }
+        var rm = h("button", { "class": "btn ghost sm", type: "button", text: "Remover do site" });
+        rm.addEventListener("click", function () {
+          if (rm.dataset.sure !== "1") { rm.dataset.sure = "1"; rm.textContent = "Toque de novo para confirmar"; return; }
+          rm.disabled = true;
+          Promise.resolve(db.doc("vagas/" + p.id).delete()).catch(function () { rm.disabled = false; });
+        });
+        acoes.push(rm);
+      }
+      lv.appendChild(h("article", { "class": "card" + (ativa ? "" : " inativa") }, [
+        h("h3", { text: p.vaga }), h("p", { "class": "empresa", text: p.empresa || "" }),
+        h("p", { "class": "empresa", text: [p.turno, p.contato].filter(Boolean).join(" · ") }),
+        h("div", { "class": "chips" }, [h("span", { "class": "chip", text: rotuloPrazo(p) })]),
+        h("div", { "class": "contato" }, acoes),
+        cands
+      ]));
+    });
+  }
+
+  /* ---------- currículo em imagem (PNG) ---------- */
+  function carregarImg(src) {
+    return new Promise(function (ok, no) { var i = new Image(); i.onload = function () { ok(i); }; i.onerror = no; i.src = src; });
+  }
+  function quebra(g, texto, larg) {
+    var linhas = [];
+    String(texto).split("\n").forEach(function (par) {
+      var pal = par.split(/\s+/).filter(Boolean), atual = "";
+      if (!pal.length) { linhas.push(""); return; }
+      pal.forEach(function (w) {
+        var t = atual ? atual + " " + w : w;
+        if (g.measureText(t).width > larg && atual) { linhas.push(atual); atual = w; } else atual = t;
+      });
+      linhas.push(atual);
+    });
+    return linhas;
+  }
+  function texto(g, t, x, y, larg, fonte, cor, alt, max) {
+    g.font = fonte; g.fillStyle = cor; g.textBaseline = "alphabetic";
+    var ls = quebra(g, t, larg);
+    if (max && ls.length > max) { ls = ls.slice(0, max); ls[max - 1] = ls[max - 1].replace(/.{0,2}$/, "") + "…"; }
+    ls.forEach(function (l, i) { g.fillText(l, x, y + i * alt); });
+    return y + ls.length * alt;
+  }
+  function secao(g, t, x, y, larg) {
+    g.font = "600 22px Outfit, sans-serif"; g.fillStyle = "#1a1a1a";
+    try { g.letterSpacing = "3px"; } catch (e) {}
+    g.fillText(t.toUpperCase(), x, y);
+    try { g.letterSpacing = "0px"; } catch (e) {}
+    g.fillStyle = "#6ab908"; g.fillRect(x, y + 12, 56, 5);
+    return y + 48;
+  }
+
+  function montarCurriculo(c) {
+    var fontes = ['600 40px Outfit', '500 28px Outfit', '400 28px "DM Sans"', '700 28px "DM Sans"'];
+    var carregaFontes = document.fonts ? Promise.all(fontes.map(function (f) { return document.fonts.load(f); })).catch(function () {}) : Promise.resolve();
+    return carregaFontes.then(function () {
+      return Promise.all([c.foto ? carregarImg(c.foto).catch(function () { return null; }) : null, carregarImg("simbolo.png").catch(function () { return null; })]);
+    }).then(function (imgs) {
+      var W = 1240, H = 1754, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+      var g = cv.getContext("2d");
+      var SANS = '"DM Sans", system-ui, sans-serif', DISP = "Outfit, system-ui, sans-serif";
+      g.fillStyle = "#ffffff"; g.fillRect(0, 0, W, H);
+      g.fillStyle = "#1a1a1a"; g.fillRect(0, 0, W, 340);
+      // foto
+      g.save(); g.beginPath(); g.arc(190, 170, 118, 0, Math.PI * 2); g.clip();
+      if (imgs[0]) {
+        var im = imgs[0], l = Math.min(im.width, im.height);
+        g.drawImage(im, (im.width - l) / 2, (im.height - l) / 2, l, l, 72, 52, 236, 236);
+      } else {
+        g.fillStyle = "#303030"; g.fillRect(72, 52, 236, 236);
+        g.fillStyle = "#fff"; g.font = "600 110px " + DISP; g.textAlign = "center"; g.fillText((c.nome || "?").charAt(0).toUpperCase(), 190, 208); g.textAlign = "left";
+      }
+      g.restore();
+      g.lineWidth = 6; g.strokeStyle = "#6ab908"; g.beginPath(); g.arc(190, 170, 118, 0, Math.PI * 2); g.stroke();
+      // nome e área
+      var yy = texto(g, c.nome || "", 350, 150, 640, "600 58px " + DISP, "#ffffff", 66, 2);
+      texto(g, c.interesse || "", 350, yy + 14, 640, "400 32px " + SANS, "#b3b3ae", 40, 2);
+      if (imgs[1]) { var lg = imgs[1], lw = 130; g.drawImage(lg, 1040, 60, lw, lw * lg.height / lg.width); }
+
+      // coluna esquerda
+      g.fillStyle = "#f1f0ed"; g.fillRect(0, 340, 420, H - 340 - 90);
+      var x = 56, w = 316, y = 400;
+      y = secao(g, "Contato", x, y, w);
+      y = texto(g, "WhatsApp", x, y, w, "500 22px " + SANS, "#6b6b66", 28);
+      y = texto(g, c.whatsapp || "Não informado", x, y + 2, w, "400 28px " + SANS, "#1a1a1a", 34) + 14;
+      y = texto(g, "E-mail", x, y, w, "500 22px " + SANS, "#6b6b66", 28);
+      y = texto(g, c.email || "Não informado", x, y + 2, w, "400 28px " + SANS, "#1a1a1a", 34) + 40;
+      y = secao(g, "Dados", x, y, w);
+      y = texto(g, "Nascimento", x, y, w, "500 22px " + SANS, "#6b6b66", 28);
+      y = texto(g, [c.nascimento, idadeDe(c.nascimento)].filter(Boolean).join(" · "), x, y + 2, w, "400 28px " + SANS, "#1a1a1a", 34) + 14;
+      y = texto(g, "Escolaridade", x, y, w, "500 22px " + SANS, "#6b6b66", 28);
+      y = texto(g, c.escolaridade || "", x, y + 2, w, "400 28px " + SANS, "#1a1a1a", 34) + 14;
+      y = texto(g, "CNH", x, y, w, "500 22px " + SANS, "#6b6b66", 28);
+      y = texto(g, c.cnh || "Não informado", x, y + 2, w, "400 28px " + SANS, "#1a1a1a", 34) + 14;
+      y = texto(g, "Turno preferido", x, y, w, "500 22px " + SANS, "#6b6b66", 28);
+      texto(g, c.turno || "", x, y + 2, w, "400 28px " + SANS, "#1a1a1a", 34);
+
+      // coluna direita
+      x = 480; w = 700; y = 400;
+      y = secao(g, "Área de interesse", x, y, w);
+      y = texto(g, c.interesse || "", x, y, w, "400 30px " + SANS, "#1a1a1a", 40, 3) + 36;
+      y = secao(g, "Experiência", x, y, w);
+      y = texto(g, c.experiencia || "", x, y, w, "400 30px " + SANS, "#1a1a1a", 40, 9) + 36;
+      y = secao(g, "Cursos", x, y, w);
+      y = texto(g, c.cursos || "", x, y, w, "400 30px " + SANS, "#1a1a1a", 40, 5) + 36;
+      y = secao(g, "Informática", x, y, w);
+      [["Word", c.word], ["Excel", c.excel], ["Responder e-mails", c.emails]].forEach(function (it) {
+        var nivel = it[1] === "Sim" ? 3 : it[1] === "Um pouco" ? 2 : 0;
+        g.font = "400 30px " + SANS; g.fillStyle = "#1a1a1a"; g.fillText(it[0], x, y);
+        for (var i = 0; i < 3; i++) { g.fillStyle = i < nivel ? "#6ab908" : "#d9d8d4"; g.fillRect(x + 330 + i * 74, y - 22, 64, 18); }
+        g.font = "400 26px " + SANS; g.fillStyle = "#6b6b66"; g.fillText(it[1] || "Não informado", x + 330 + 3 * 74 + 14, y - 2);
+        y += 54;
+      });
+
+      // rodapé
+      g.fillStyle = "#1a1a1a"; g.fillRect(0, H - 90, W, 90);
+      g.fillStyle = "#b3b3ae"; g.font = "400 24px " + SANS; g.textAlign = "center";
+      g.fillText("Currículo cadastrado no Emprega Campos · Campos do Jordão", W / 2, H - 38); g.textAlign = "left";
+      return cv;
+    });
+  }
+
+  /* ---------- modal: ver, baixar e compartilhar ---------- */
+  var cvAtual = null, cvBlob = null, cvUrl = "";
+
+  function abrirModal(c, vagaId) {
+    cvAtual = c; cvBlob = null;
+    $("m-status").textContent = "Montando o currículo…";
+    $("m-img").removeAttribute("src");
+    $("modal").hidden = false;
+    var sel = $("m-dest"); sel.textContent = "";
+    var vistos = {};
+    vagas.forEach(function (v, i) {
+      var chave = (v.empresa || "") + "|" + (v.contato || "");
+      if (!v.contato || vistos[chave]) return; vistos[chave] = 1;
+      sel.appendChild(h("option", { value: String(i), text: (v.empresa || "Empresa") + " · " + (v.vaga || "") }));
+      if (vagaId && v.id === vagaId) sel.value = String(i);
+    });
+    sel.appendChild(h("option", { value: "manual", text: "Outro contato…" }));
+    $("m-manual-box").hidden = sel.value !== "manual";
+    montarCurriculo(c).then(function (cv) {
+      cvUrl = cv.toDataURL("image/png");
+      $("m-img").src = cvUrl;
+      cv.toBlob(function (b) { cvBlob = b; }, "image/png");
+      $("m-status").textContent = "";
+    }).catch(function () { $("m-status").textContent = "Não consegui montar a imagem do currículo."; });
+  }
+  function fecharModal() { $("modal").hidden = true; }
+  $("m-fechar").addEventListener("click", fecharModal);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("modal").hidden) fecharModal(); });
+  $("m-dest").addEventListener("change", function () { $("m-manual-box").hidden = this.value !== "manual"; });
+
+  function nomeDe(nome) { return "curriculo-" + norm(nome).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + ".png"; }
+  function nomeArquivo() { return nomeDe(cvAtual.nome); }
+
+  function baixarArquivo(blob, nome) {
+    return (window.claude && window.claude.use ? window.claude.use("downloads") : Promise.resolve(null)).then(function (dl) {
+      if (dl) return dl.save({ filename: nome, data: blob }).then(function () { return true; });
+      var a = h("a", { href: URL.createObjectURL(blob), download: nome });
+      document.body.appendChild(a); a.click(); a.remove(); return true;
+    }).catch(function () { return false; });
+  }
+
+  function baixar() {
+    if (!cvBlob) { $("m-status").textContent = "Aguarde o currículo terminar de montar."; return Promise.resolve(false); }
+    return baixarArquivo(cvBlob, nomeArquivo());
+  }
+  $("m-baixar").addEventListener("click", function () {
+    baixar().then(function (ok) { $("m-status").textContent = ok ? "Imagem salva." : "A imagem não foi salva."; });
+  });
+
+  function destino() {
+    var sel = $("m-dest").value;
+    if (sel === "manual") return { empresa: "", vaga: "", contato: $("m-manual").value.trim() };
+    var v = vagas[+sel] || {};
+    return { empresa: v.empresa || "", vaga: v.vaga || "", contato: (v.contato || "").trim() };
+  }
+  function mensagem(d) {
+    return "Olá" + (d.empresa ? ", " + d.empresa : "") + "! Aqui é do Emprega Campos, de Campos do Jordão. Encontramos um currículo que pode combinar com a sua vaga" + (d.vaga ? " de " + d.vaga : "") + ": " + cvAtual.nome + (cvAtual.interesse ? ", com interesse em " + cvAtual.interesse : "") + ". Segue o currículo em imagem. Qualquer dúvida, é só responder esta mensagem.";
+  }
+  function abrirLink(href) {
+    var a = h("a", { href: href, target: "_blank", rel: "noopener noreferrer" });
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  function enviar(canal) {
+    var d = destino(), st = $("m-status");
+    var eMail = /@/.test(d.contato), tel = d.contato.replace(/\D/g, "");
+    if (!d.contato) { st.textContent = "Informe o contato do empregador."; return; }
+    if (canal === "wpp" && eMail) { st.textContent = "Esse empregador deixou e-mail. Use o botão E-mail."; return; }
+    if (canal === "email" && !eMail) { st.textContent = "Esse empregador deixou WhatsApp. Use o botão WhatsApp."; return; }
+    if (canal === "wpp" && tel.length < 10) { st.textContent = "O WhatsApp parece incompleto. Use Outro contato e confira o número."; return; }
+    var msg = mensagem(d);
+    // celular: abre o menu de compartilhar já com a imagem e a mensagem
+    if (cvBlob && navigator.canShare && navigator.share) {
+      var arq = new File([cvBlob], nomeArquivo(), { type: "image/png" });
+      if (navigator.canShare({ files: [arq] })) {
+        navigator.share({ files: [arq], text: msg }).then(function () { st.textContent = "Escolha o contato " + (canal === "wpp" ? "no WhatsApp" : "no e-mail") + " para enviar."; })
+          .catch(function () { /* cancelado */ });
+        return;
+      }
+    }
+    if (canal === "wpp") {
+      if (tel.length <= 11) tel = "55" + tel;
+      abrirLink("https://wa.me/" + tel + "?text=" + encodeURIComponent(msg));
+    } else {
+      abrirLink("mailto:" + d.contato + "?subject=" + encodeURIComponent("Currículo de " + cvAtual.nome + " · Emprega Campos") + "&body=" + encodeURIComponent(msg));
+    }
+    st.textContent = "A mensagem está pronta. Toque em Baixar imagem e anexe o currículo na conversa.";
+  }
+  $("m-wpp").addEventListener("click", function () { enviar("wpp"); });
+  $("m-email").addEventListener("click", function () { enviar("email"); });
+
+
+  db.collection("apoiadores").onSnapshot(function (snap) {
+    apoiadores = docsDe(snap).map(function (d) { return Object.assign({ id: d.id }, d.data); }).filter(function (a) { return a && a.nome; });
+    renderAdmin();
+  });
+  db.collection("vagas").onSnapshot(function (snap) {
+    vagas = docsDe(snap).map(function (d) { return Object.assign({ id: d.id }, d.data); });
+    renderAdmin();
+  });
+
+  /* ---------- dados reais (arquivos do site) ---------- */
+  function lerJson(arq) { return fetch(arq, { cache: "no-store" }).then(function (r) { return r.json(); }).catch(function () { return []; }); }
+  Promise.all([lerJson("vagas.json"), lerJson("apoiadores.json")]).then(function (r) {
+    (Array.isArray(r[0]) ? r[0] : []).forEach(function (v, i) { if (v && v.vaga) { var id = v.id || ("v" + i + "-" + novoId()); dados.vagas[id] = Object.assign({}, v, { id: id }); } });
+    (Array.isArray(r[1]) ? r[1] : []).forEach(function (a, i) { if (a && a.nome) { var id = a.id || ("a" + i + "-" + novoId()); dados.apoiadores[id] = Object.assign({}, a, { id: id }); } });
+    emitir("vagas"); emitir("apoiadores");
+  });
+
+  function baixarJson(lista, nome, aviso) {
+    var blob = new Blob([JSON.stringify(lista, null, 2)], { type: "application/json" });
+    baixarArquivo(blob, nome).then(function (ok) { if (aviso) aviso.textContent = ok ? nome + " salvo. Envie para a hospedagem no lugar do antigo." : "Não foi possível salvar o arquivo."; });
+  }
+  $("baixar-vagas").addEventListener("click", function () {
+    baixarJson(Object.keys(dados.vagas).map(function (k) { return dados.vagas[k]; }), "vagas.json", $("n-aviso"));
+  });
+  $("baixar-apo").addEventListener("click", function () {
+    baixarJson(Object.keys(dados.apoiadores).map(function (k) { return dados.apoiadores[k]; }), "apoiadores.json", $("a-aviso"));
+  });
+  $("form-vaga-adm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var av = $("n-aviso");
+    var d = { empresa: $("n-empresa").value.trim(), vaga: $("n-vaga").value.trim(), contato: $("n-contato").value.trim(), turno: $("n-turno").value, descricao: $("n-desc").value.trim() };
+    if (!d.empresa || !d.vaga || !d.contato || !d.descricao) { av.textContent = "Preencha empresa, vaga, contato e descrição."; return; }
+    var id = novoId(), agora = new Date().toISOString();
+    db.doc("vagas/" + id).set(Object.assign(d, { id: id, status: "aprovada", criadaEm: agora, aprovadaEm: agora }));
+    $("form-vaga-adm").reset(); av.textContent = "Vaga adicionada. Baixe o vagas.json para publicar.";
+  });
+  function barras(qual) { $("barra-vagas").hidden = qual !== "vagas"; }
+  $("sub-cur").addEventListener("click", function () { barras("cur"); });
+  $("sub-vagas").addEventListener("click", function () { barras("vagas"); });
+  $("sub-apo").addEventListener("click", function () { barras("apo"); });
+
+  /* ---------- entrada (demonstração) ---------- */
+  var USUARIO = "admin", SENHA = "campos2026";
+  function entrar() {
+    $("login").hidden = true; $("painel").hidden = false;
+    iniciarAdmin();
+  }
+  $("login").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if ($("l-user").value.trim() === USUARIO && $("l-pass").value === SENHA) {
+      try { sessionStorage.setItem("ec-admin", "1"); } catch (x) {}
+      entrar();
+    } else $("l-erro").textContent = "Usuário ou senha incorretos.";
+  });
+  $("sair").addEventListener("click", function () {
+    try { sessionStorage.removeItem("ec-admin"); } catch (x) {}
+    $("painel").hidden = true; $("login").hidden = false; $("l-pass").value = ""; $("l-erro").textContent = "";
+  });
+  try { if (sessionStorage.getItem("ec-admin") === "1") entrar(); } catch (x) {}
+})();
+</script>
+</body>
+</html>
